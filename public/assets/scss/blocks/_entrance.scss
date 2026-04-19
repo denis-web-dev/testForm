@@ -1,4 +1,20 @@
 body.page-entrance {
+  .error-text {
+    position: absolute;
+    font-family: var(--font-secondery);
+    font-size: 14px;
+    bottom: 34px;
+    left: 456px;
+    color: #cc4422;
+    white-space: nowrap;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .has-error input {
+    border-color: #cc4422;
+  }
 
   .wrapper-entrance {
     align-content: center;
@@ -62,7 +78,7 @@ body.page-entrance {
 
   .form-group {
     position: relative;
-
+    margin-bottom: 35px;
     font-family: var(--font-secondery);
     font-size: 16px;
     line-height: 18px;
@@ -84,16 +100,6 @@ body.page-entrance {
 
   .form-group input:focus {
     border-color: #37f737;
-  }
-
-  .form__star {
-    opacity: 1;
-    transition: opacity 0.3s ease;
-  }
-
-  input:focus+label+.form__star,
-  input:not(:placeholder-shown)+label+.form__star {
-    opacity: 0;
   }
 
   .form-group input::placeholder {
@@ -165,6 +171,16 @@ body.page-entrance {
     transform: translateY(-58%) translateX(225px);
   }
 
+  input:focus+label+.form__star,
+  input:not(:placeholder-shown)+label+.form__star {
+    opacity: 0;
+  }
+
+  input:focus+label+.form__email-login-star,
+  input:not(:placeholder-shown)+label+.form__email-login-star {
+    opacity: 0;
+  }
+
   .form-group input:focus {
     caret-color: #37f737;
     border-color: #37f737;
@@ -174,14 +190,31 @@ body.page-entrance {
     position: absolute;
     display: flex;
     top: 17px;
+    left: 140px;
+
+    .form__email-star {
+      margin-left: 68px;
+    }
+
+    .form__password-star {
+      margin-left: 140px;
+    }
   }
 
-  .form__email-star {
-    margin-left: 68px;
+  .error-text {
+    position: absolute;
+    bottom: -22px;
+    left: 28px;
+    color: #cc4422;
+    font-size: 13.5px;
+    white-space: nowrap;
   }
 
-  .form__password-star {
-    margin-left: 140px;
+  .form__email-login-star {
+    position: absolute;
+    top: 17px;
+    left: 167px;
+
   }
 
   .form__forgot-password {

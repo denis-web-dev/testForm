@@ -1,13 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
-	if (!document.body.classList.contains('page-registration')) return;
-
 	const form = document.querySelector('form');
-
-	const nameInput = form.querySelector('input[name="name"]');
-	const phoneInput = form.querySelector('input[name="phone"]');
-	const emailInput = form.querySelector('input[name="email"]');
-	const passwordInput = form.querySelector('input[name="password"]');
-	const confirmInput = form.querySelector('input[name="confirm-password"]');
+	if (!form) return;
 
 	function showError(input, message) {
 		let errorSpan = input.parentElement.querySelector('.error-text');
@@ -26,48 +19,112 @@ document.addEventListener('DOMContentLoaded', () => {
 		input.parentElement.classList.remove('has-error');
 	}
 
-	nameInput.addEventListener('blur', () => {
-		const val = nameInput.value.trim();
-		if (!val) return showError(nameInput, 'Имя обязательно');
-		if (!/^[a-zA-Zа-яА-ЯёЁ\s\-]+$/u.test(val)) return showError(nameInput, 'Имя может содержать только буквы');
-		if (val.length < 2) return showError(nameInput, 'Имя слишком короткое');
-		clearError(nameInput);
-	});
+	// ====================== РЕГИСТРАЦИЯ (оригинальная логика) ======================
+	if (document.body.classList.contains('page-registration')) {
+		const nameInput = form.querySelector('input[name="name"]');
+		const phoneInput = form.querySelector('input[name="phone"]');
+		const emailInput = form.querySelector('input[name="email"]');
+		const passwordInput = form.querySelector('input[name="password"]');
+		const confirmInput = form.querySelector('input[name="confirm-password"]');
 
-	phoneInput.addEventListener('blur', () => {
-		let val = phoneInput.value.trim().replace(/[^0-9+]/g, '');
-		if (!val) return showError(phoneInput, 'Телефон обязателен');
-		if (!/^(\+7|8)[0-9]{10}$/.test(val)) return showError(phoneInput, 'Введите корректный номер (+7 или 8 и 10 цифр)');
-		clearError(phoneInput);
-	});
+		nameInput?.addEventListener('blur', () => {
+			const val = nameInput.value.trim();
+			if (!val) return showError(nameInput, 'Имя обязательно');
+			if (!/^[a-zA-Zа-яА-ЯёЁ\s\-]+$/u.test(val)) return showError(nameInput, 'Имя может содержать только буквы');
+			if (val.length < 2) return showError(nameInput, 'Имя слишком короткое');
+			clearError(nameInput);
+		});
 
-	emailInput.addEventListener('blur', () => {
-		const val = emailInput.value.trim();
-		const regex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.(com|ru|net|org|io|co|info|рф)$/i;
-		if (!val) return showError(emailInput, 'E-mail обязателен');
-		if (!regex.test(val)) return showError(emailInput, 'Введите корректный E-mail');
-		clearError(emailInput);
-	});
+		phoneInput?.addEventListener('blur', () => {
+			let val = phoneInput.value.trim().replace(/[^0-9+]/g, '');
+			if (!val) return showError(phoneInput, 'Телефон обязателен');
+			if (!/^(\+7|8)[0-9]{10}$/.test(val))
+				return showError(phoneInput, 'Введите корректный номер (+7 или 8 и 10 цифр)');
+			clearError(phoneInput);
+		});
 
-	passwordInput.addEventListener('blur', () => {
-		const val = passwordInput.value;
-		if (val.length < 8) return showError(passwordInput, 'Пароль минимум 8 символов');
-		if (!/[A-Za-z]/.test(val) || !/[0-9]/.test(val))
-			return showError(passwordInput, 'Пароль должен содержать буквы и цифры');
-		clearError(passwordInput);
-	});
+		emailInput?.addEventListener('blur', () => {
+			const val = emailInput.value.trim();
+			const regex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.(com|ru|net|org|io|co|info|рф)$/i;
+			if (!val) return showError(emailInput, 'E-mail обязателен');
+			if (!regex.test(val)) return showError(emailInput, 'Введите корректный E-mail');
+			clearError(emailInput);
+		});
 
-	confirmInput.addEventListener('blur', () => {
-		if (confirmInput.value !== passwordInput.value) {
-			showError(confirmInput, 'Пароли не совпадают');
-		} else {
-			clearError(confirmInput);
+		passwordInput?.addEventListener('blur', () => {
+			const val = passwordInput.value;
+			if (val.length < 8) return showError(passwordInput, 'Пароль минимум 8 символов');
+			if (!/[A-Za-z]/.test(val) || !/[0-9]/.test(val))
+				return showError(passwordInput, 'Пароль должен содержать буквы и цифры');
+			clearError(passwordInput);
+		});
+
+		confirmInput?.addEventListener('blur', () => {
+			if (confirmInput.value !== passwordInput.value) {
+				showError(confirmInput, 'Пароли не совпадают');
+			} else {
+				clearError(confirmInput);
+			}
+		});
+
+		confirmInput?.addEventListener('input', () => {
+			if (confirmInput.value === passwordInput.value) clearError(confirmInput);
+		});
+	}
+
+	// ====================== АВТОРИЗАЦИЯ ======================
+	if (document.body.classList.contains('page-entrance')) {
+		const loginInput = form.querySelector('input[name="login"]');
+		const passwordInput = form.querySelector('input[name="password"]');
+
+		// Поле логина
+		if (loginInput) {
+			loginInput.addEventListener('blur', () => {
+				const val = loginInput.value.trim();
+
+				if (!val) {
+					showError(loginInput, 'Введите email или телефон');
+					return;
+				}
+
+				// Телефон
+				if (/^(\+7|8)/.test(val)) {
+					let clean = val.replace(/[^\d]/g, '');
+					if (clean.length !== 11) {
+						showError(loginInput, 'Введите полный номер телефона (+7 и 10 цифр)');
+						return;
+					}
+				}
+				// Email
+				else {
+					const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.(com|ru|net|org|io|co|info|рф)$/i;
+					if (!emailRegex.test(val)) {
+						showError(loginInput, 'Введите корректный email');
+						return;
+					}
+				}
+
+				clearError(loginInput);
+			});
+
+			loginInput.addEventListener('input', () => clearError(loginInput));
 		}
-	});
 
-	confirmInput.addEventListener('input', () => {
-		if (confirmInput.value === passwordInput.value) clearError(confirmInput);
-	});
+		// Поле пароля
+		if (passwordInput) {
+			passwordInput.addEventListener('blur', () => {
+				if (!passwordInput.value) {
+					showError(passwordInput, 'Введите пароль');
+				} else if (passwordInput.value.length < 6) {
+					showError(passwordInput, 'Пароль должен быть не менее 6 символов');
+				} else {
+					clearError(passwordInput);
+				}
+			});
+
+			passwordInput.addEventListener('input', () => clearError(passwordInput));
+		}
+	}
 });
 
 document.addEventListener('DOMContentLoaded', function () {

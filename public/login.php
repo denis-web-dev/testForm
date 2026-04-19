@@ -1,3 +1,13 @@
+<?php
+declare(strict_types=1);
+session_start();
+
+require_once __DIR__ . '/../includes/functions.php';
+
+$errors = $errors ?? [];
+$old    = $_POST ?? [];
+?>
+
 <!DOCTYPE html>
 <html lang="ru">
 
@@ -5,7 +15,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>ITFREELANCE-Вход</title>
-  <link rel="stylesheet" href="./assets/css/main.css">
+  <link rel="stylesheet" href="/assets/css/main.css">
 </head>
 
 <body class="page-entrance">
@@ -13,6 +23,13 @@
     <main class="main">
       <div class="container">
         <h1 class="main__title-entrance main__title">Вход</h1>
+        <?php get_flash(); ?>
+
+<?php if (!empty($errors['general'])): ?>
+    <div style="color: red; text-align: center; margin: 15px 0; font-weight: bold;">
+        <?= e($errors['general']) ?>
+    </div>
+<?php endif; ?>
         <div class="block-bg">
           <button class="block-bg__close-btn">
             <svg class="block-bg__close-svg" viewBox="0 0 19 18" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -26,24 +43,37 @@
               d="M1338.69 0C1360.04 0 1370.74 25.8136 1355.64 40.9107C1346.28 50.2696 1346.28 65.4433 1355.64 74.8022L1401.21 120.375C1406.84 126.001 1410 133.632 1410 141.588V740C1410 756.569 1396.57 770 1380 770H30C13.4315 770 0 756.569 0 740V30C0 13.4315 13.4315 0 30 0H1338.69Z" />
           </svg>
 
-          <form class="form__container-entrance form__container">
-
-            <div class="form-group form-group__email">
-              <input class="form__email" type="email" id="form_email" name="emailUser" required placeholder="E-mail">
-              <label for="form_email">E-mail</label>
-              <svg class="form__email-star form__star" width="14" height="13" viewBox="0 0 14 13" fill="none"
+          <form class="form__container-entrance form__container" method="POST" action="/login.php">
+            <input type="hidden" name="csrf_token" value="<?= $_SESSION['csrf_token'] ?? '' ?>">
+            <div class="form-group form-group__email <?= isset($errors['login']) ? 'has-error' : '' ?>">
+              <input class="form__email"
+              type="text"
+              id="form_login"
+              name="login"
+              value="<?= old('login') ?>"
+              required
+              placeholder="E-mail или телефон">
+              <label for="form_login">E-mail или телефон</label>
+              <svg class="form__email-login-star" width="10" height="9" viewBox="0 0 14 13" fill="none"
                 xmlns="http://www.w3.org/2000/svg">
                 <path fill-rule="evenodd" clip-rule="evenodd"
                   d="M2.82798 6.5L0 4.95555L2.08438 1.54445L5.91502 4.95555L4.9156 0H9.0844L8.18391 4.95555L11.9156 1.54445L14 4.95555L11.172 6.5L14 8.04445L11.9156 11.4556L8.18391 8.04445L9.0844 13H4.9156L5.91502 8.04445L2.08438 11.4556L0 8.04445L2.82798 6.5Z"
                   fill="#B7B7B7" />
               </svg>
+              <?php if (isset($errors['login'])): ?>
+    <span class="error-text"><?= e($errors['login']) ?></span>
+  <?php endif; ?>
             </div>
 
             <div class="form-group form-group__password" id="form-group__password">
-              <input class="form__password" type="password" id="password" name="passwordUser" required
-                placeholder="Введите пароль">
+              <input class="form__password"
+              type="password"
+              id="password"
+              name="password"
+              required
+              placeholder="Введите пароль">
               <label for="password">Введите пароль</label>
-              <svg class="form__password-star form__star" width="14" height="13" viewBox="0 0 14 13" fill="none"
+              <svg class="form__password-star form__star" width="10" height="9" viewBox="0 0 14 13" fill="none"
                 xmlns="http://www.w3.org/2000/svg">
                 <path fill-rule="evenodd" clip-rule="evenodd"
                   d="M2.82798 6.5L0 4.95555L2.08438 1.54445L5.91502 4.95555L4.9156 0H9.0844L8.18391 4.95555L11.9156 1.54445L14 4.95555L11.172 6.5L14 8.04445L11.9156 11.4556L8.18391 8.04445L9.0844 13H4.9156L5.91502 8.04445L2.08438 11.4556L0 8.04445L2.82798 6.5Z"
@@ -53,6 +83,9 @@
                 <svg class="toggle__password-svg" width="20" height="20" viewBox="0 0 20 20" fill="none"
                   xmlns="http://www.w3.org/2000/svg"></svg>
               </button>
+              <?php if (isset($errors['password'])): ?>
+        <span class="error-text"><?= e($errors['password']) ?></span>
+    <?php endif; ?>
             </div>
 
             <div class="form-group__checkbox">
@@ -73,7 +106,7 @@
     </main>
   </div>
 
-  <script src="./js/login-registration.js"></script>
+  <script src="/assets/js/login-registration.js"></script>
 </body>
 
 </html>

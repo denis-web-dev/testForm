@@ -67,7 +67,7 @@ unset($_SESSION['form_errors'], $_SESSION['form_old']);
                         <input class="form__name" type="text" id="form_name" name="name" value="<?= old('name', $old['name'] ?? '') ?>" required placeholder="Имя">
                         <label for="form_name">Имя</label>
                         <?php if (isset($errors['name'])): ?><span class="error-text"><?= e($errors['name']) ?></span><?php endif; ?>
-                        <svg class="form__name-star form__star" width="14" height="13" viewBox="0 0 14 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <svg class="form__name-star form__star" width="10" height="9" viewBox="0 0 14 13" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path fill-rule="evenodd" clip-rule="evenodd" d="M2.82798 6.5L0 4.95555L2.08438 1.54445L5.91502 4.95555L4.9156 0H9.0844L8.18391 4.95555L11.9156 1.54445L14 4.95555L11.172 6.5L14 8.04445L11.9156 11.4556L8.18391 8.04445L9.0844 13H4.9156L5.91502 8.04445L2.08438 11.4556L0 8.04445L2.82798 6.5Z" fill="#B7B7B7" />
                         </svg>
                     </div>
@@ -76,7 +76,7 @@ unset($_SESSION['form_errors'], $_SESSION['form_old']);
                     <div class="form-group form-group__phone <?= isset($errors['phone']) ? 'has-error' : '' ?>">
                         <input class="form__phone" type="tel" id="form_phone" name="phone" value="<?= old('phone', $old['phone'] ?? '') ?>" required placeholder="Телефон">
                         <label for="form_phone">Телефон</label>
-                        <svg class="form__phone-star form__star" width="14" height="13" viewBox="0 0 14 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <svg class="form__phone-star form__star" width="10" height="9" viewBox="0 0 14 13" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path fill-rule="evenodd" clip-rule="evenodd" d="M2.82798 6.5L0 4.95555L2.08438 1.54445L5.91502 4.95555L4.9156 0H9.0844L8.18391 4.95555L11.9156 1.54445L14 4.95555L11.172 6.5L14 8.04445L11.9156 11.4556L8.18391 8.04445L9.0844 13H4.9156L5.91502 8.04445L2.08438 11.4556L0 8.04445L2.82798 6.5Z" fill="#B7B7B7" />
                         </svg>
                         <?php if (isset($errors['phone'])): ?>
@@ -88,7 +88,7 @@ unset($_SESSION['form_errors'], $_SESSION['form_old']);
                     <div class="form-group form-group__email <?= isset($errors['email']) ? 'has-error' : '' ?>">
                         <input class="form__email" type="email" id="form_email" name="email" value="<?= old('email', $old['email'] ?? '') ?>" required placeholder="E-mail">
                         <label for="form_email">E-mail</label>
-                        <svg class="form__email-star form__star" width="14" height="13" viewBox="0 0 14 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <svg class="form__email-star form__star" width="10" height="9" viewBox="0 0 14 13" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path fill-rule="evenodd" clip-rule="evenodd" d="M2.82798 6.5L0 4.95555L2.08438 1.54445L5.91502 4.95555L4.9156 0H9.0844L8.18391 4.95555L11.9156 1.54445L14 4.95555L11.172 6.5L14 8.04445L11.9156 11.4556L8.18391 8.04445L9.0844 13H4.9156L5.91502 8.04445L2.08438 11.4556L0 8.04445L2.82798 6.5Z" fill="#B7B7B7" />
                         </svg>
                         <?php if (isset($errors['email'])): ?>
@@ -100,7 +100,7 @@ unset($_SESSION['form_errors'], $_SESSION['form_old']);
                     <div class="form-group form-group__password <?= isset($errors['password']) ? 'has-error' : '' ?>" id="form-group__password">
                         <input class="form__password" type="password" id="password" name="password" value="<?= old('password', $old['password'] ?? '') ?>" required placeholder="Введите пароль">
                         <label for="password">Введите пароль</label>
-                        <svg class="form__password-star form__star" width="14" height="13" viewBox="0 0 14 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <svg class="form__password-star form__star" width="10" height="9" viewBox="0 0 14 13" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path fill-rule="evenodd" clip-rule="evenodd" d="M2.82798 6.5L0 4.95555L2.08438 1.54445L5.91502 4.95555L4.9156 0H9.0844L8.18391 4.95555L11.9156 1.54445L14 4.95555L11.172 6.5L14 8.04445L11.9156 11.4556L8.18391 8.04445L9.0844 13H4.9156L5.91502 8.04445L2.08438 11.4556L0 8.04445L2.82798 6.5Z" fill="#B7B7B7" />
                         </svg>
                         <button type="button" class="toggle-password" data-target="password" aria-label="Показать пароль"></button>
@@ -113,7 +113,7 @@ unset($_SESSION['form_errors'], $_SESSION['form_old']);
                     <div class="form-group form-group__confirm-password <?= isset($errors['confirm-password']) ? 'has-error' : '' ?>" id="form-group__confirm-password">
                         <input class="form__password" type="password" id="repeatPassword" name="confirm-password" value="<?= old('confirm-password', $old['confirm-password'] ?? '') ?>" required placeholder="Повторите пароль">
                         <label for="repeatPassword">Повторите пароль</label>
-                        <svg class="form__passwords-star form__star" width="14" height="13" viewBox="0 0 14 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <svg class="form__passwords-star form__star" width="10" height="9" viewBox="0 0 14 13" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path fill-rule="evenodd" clip-rule="evenodd" d="M2.82798 6.5L0 4.95555L2.08438 1.54445L5.91502 4.95555L4.9156 0H9.0844L8.18391 4.95555L11.9156 1.54445L14 4.95555L11.172 6.5L14 8.04445L11.9156 11.4556L8.18391 8.04445L9.0844 13H4.9156L5.91502 8.04445L2.08438 11.4556L0 8.04445L2.82798 6.5Z" fill="#B7B7B7" />
                         </svg>
                         <button type="button" class="toggle-password" data-target="repeatPassword" aria-label="Показать пароль"></button>

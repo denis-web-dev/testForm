@@ -18,8 +18,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $password = $_POST['password'] ?? '';
     $confirm  = $_POST['confirm-password'] ?? '';
 
-    // === Улучшенная валидация ===
-
     if (empty($name) || !preg_match('/^[a-zA-Zа-яА-ЯёЁ\s\-]+$/u', $name)) {
         $errors['name'] = 'Имя может содержать только буквы';
     } elseif (mb_strlen($name) < 2 || mb_strlen($name) > 50) {

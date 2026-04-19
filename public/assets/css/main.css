@@ -116,7 +116,7 @@ body {
   background-position: center center;
   background-attachment: fixed;
   background-size: cover;
-  cursor: url("../../images/icons/cursors.cur"), auto;
+  cursor: url("/public/assets/images/icons/cursors.cur"), auto;
 }
 
 a {
@@ -697,6 +697,21 @@ body.page-registration .underline {
   }
 }
 
+body.page-entrance .error-text {
+  position: absolute;
+  font-family: var(--font-secondery);
+  font-size: 14px;
+  bottom: 34px;
+  left: 456px;
+  color: #cc4422;
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+body.page-entrance .has-error input {
+  border-color: #cc4422;
+}
 body.page-entrance .wrapper-entrance {
   align-content: center;
   padding: 15px;
@@ -766,17 +781,6 @@ body.page-entrance .form-group input {
 }
 body.page-entrance .form-group input:focus {
   border-color: #37f737;
-}
-body.page-entrance .form__star {
-  opacity: 1;
-  transition: opacity 0.3s ease;
-}
-body.page-entrance input:not(:-moz-placeholder) + label + .form__star {
-  opacity: 0;
-}
-body.page-entrance input:focus + label + .form__star,
-body.page-entrance input:not(:placeholder-shown) + label + .form__star {
-  opacity: 0;
 }
 body.page-entrance .form-group input::-moz-placeholder {
   color: transparent;
@@ -849,6 +853,20 @@ body.page-entrance .form-group__confirm-password input:valid + label,
 body.page-entrance .form-group__confirm-password input:not(:placeholder-shown) + label {
   transform: translateY(-58%) translateX(225px);
 }
+body.page-entrance input:not(:-moz-placeholder) + label + .form__star {
+  opacity: 0;
+}
+body.page-entrance input:focus + label + .form__star,
+body.page-entrance input:not(:placeholder-shown) + label + .form__star {
+  opacity: 0;
+}
+body.page-entrance input:not(:-moz-placeholder) + label + .form__email-login-star {
+  opacity: 0;
+}
+body.page-entrance input:focus + label + .form__email-login-star,
+body.page-entrance input:not(:placeholder-shown) + label + .form__email-login-star {
+  opacity: 0;
+}
 body.page-entrance .form-group input:focus {
   caret-color: #37f737;
   border-color: #37f737;
@@ -857,12 +875,23 @@ body.page-entrance .form__star {
   position: absolute;
   display: flex;
   top: 17px;
+  left: 140px;
 }
-body.page-entrance .form__email-star {
+body.page-entrance .form__star .form__email-star {
   margin-left: 68px;
 }
-body.page-entrance .form__password-star {
+body.page-entrance .form__star .form__password-star {
   margin-left: 140px;
+}
+body.page-entrance .error-text {
+  position: absolute;
+  width: 206px;
+  top: 20px;
+}
+body.page-entrance .form__email-login-star {
+  position: absolute;
+  top: 17px;
+  left: 167px;
 }
 body.page-entrance .form__forgot-password {
   font-family: var(--font-primary);
