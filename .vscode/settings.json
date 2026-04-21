@@ -1,0 +1,21 @@
+{
+  "liveSassCompile.settings.formats": [
+    {
+      "format": "expanded",
+      "extensionName": ".css",
+      "savePath": "/public/assets/css"
+    }
+  ],
+  "liveSassCompile.settings.includeItems": [
+    "/public/assets/scss/main.scss",
+    "/public/assets/scss/**/*.scss"
+  ],
+  "liveSassCompile.settings.excludeList": [
+    "/**/_*.scss"
+  ],
+  "liveSassCompile.settings.generateMap": true,
+  "liveSassCompile.settings.autoprefix": [
+    "> 1%",
+    "last 2 versions"
+  ]
+}

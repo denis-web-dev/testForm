@@ -1,8 +1,15 @@
 <?php
 declare(strict_types=1);
+
 session_start();
 
 require_once __DIR__ . '/../includes/functions.php';
+
+// Обработка POST-запроса
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    require_once __DIR__ . '/../src/controllers/LoginController.php';
+    exit;
+}
 
 $errors = $errors ?? [];
 $old    = $_POST ?? [];

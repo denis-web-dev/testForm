@@ -229,15 +229,9 @@ body.page-registration .form__star {
   opacity: 1;
   transition: opacity 0.3s ease;
 }
-body.page-registration input:not(:-moz-placeholder) + label + .form__star {
-  opacity: 0;
-}
 body.page-registration input:focus + label + .form__star,
 body.page-registration input:not(:placeholder-shown) + label + .form__star {
   opacity: 0;
-}
-body.page-registration .form-group input::-moz-placeholder {
-  color: transparent;
 }
 body.page-registration .form-group input::placeholder {
   color: transparent;
@@ -254,32 +248,20 @@ body.page-registration .form-group label {
   font-size: 16px;
   transition: all 0.3s ease;
 }
-body.page-registration .form-group input:not(:-moz-placeholder) + label {
-  transform: translateY(-50%) translateX(347px);
-}
 body.page-registration .form-group input:focus + label,
 body.page-registration .form-group input:valid + label,
 body.page-registration .form-group input:not(:placeholder-shown) + label {
   transform: translateY(-50%) translateX(347px);
-}
-body.page-registration .form-group__phone input:not(:-moz-placeholder) + label {
-  transform: translateY(-50%) translateX(310px);
 }
 body.page-registration .form-group__phone input:focus + label,
 body.page-registration .form-group__phone input:valid + label,
 body.page-registration .form-group__phone input:not(:placeholder-shown) + label {
   transform: translateY(-50%) translateX(310px);
 }
-body.page-registration .form-group__password input:not(:-moz-placeholder) + label {
-  transform: translateY(-58%) translateX(240px);
-}
 body.page-registration .form-group__password input:focus + label,
 body.page-registration .form-group__password input:valid + label,
 body.page-registration .form-group__password input:not(:placeholder-shown) + label {
   transform: translateY(-58%) translateX(240px);
-}
-body.page-registration .form-group__confirm-password input:not(:-moz-placeholder) + label {
-  transform: translateY(-58%) translateX(225px);
 }
 body.page-registration .form-group__confirm-password input:focus + label,
 body.page-registration .form-group__confirm-password input:valid + label,
@@ -426,24 +408,15 @@ body.page-registration .underline {
   body.page-registration .documentation {
     margin-top: 20px;
   }
-  body.page-registration .form-group input:not(:-moz-placeholder) + label {
-    transform: translateY(-50%) translateX(300px);
-  }
   body.page-registration .form-group input:focus + label,
   body.page-registration .form-group input:valid + label,
   body.page-registration .form-group input:not(:placeholder-shown) + label {
     transform: translateY(-50%) translateX(300px);
   }
-  body.page-registration .form-group__password input:not(:-moz-placeholder) + label {
-    transform: translateY(-38%) translateX(196px);
-  }
   body.page-registration .form-group__password input:focus + label,
   body.page-registration .form-group__password input:valid + label,
   body.page-registration .form-group__password input:not(:placeholder-shown) + label {
     transform: translateY(-38%) translateX(196px);
-  }
-  body.page-registration .form-group__confirm-password input:not(:-moz-placeholder) + label {
-    transform: translateY(-38%) translateX(178px);
   }
   body.page-registration .form-group__confirm-password input:focus + label,
   body.page-registration .form-group__confirm-password input:valid + label,
@@ -506,24 +479,15 @@ body.page-registration .underline {
     margin-top: 10px;
     font-size: 12px;
   }
-  body.page-registration .form-group input:not(:-moz-placeholder) + label {
-    transform: translateY(-50%) translateX(260px);
-  }
   body.page-registration .form-group input:focus + label,
   body.page-registration .form-group input:valid + label,
   body.page-registration .form-group input:not(:placeholder-shown) + label {
     transform: translateY(-50%) translateX(260px);
   }
-  body.page-registration .form-group__password input:not(:-moz-placeholder) + label {
-    transform: translateY(-50%) translateX(160px);
-  }
   body.page-registration .form-group__password input:focus + label,
   body.page-registration .form-group__password input:valid + label,
   body.page-registration .form-group__password input:not(:placeholder-shown) + label {
     transform: translateY(-50%) translateX(160px);
-  }
-  body.page-registration .form-group__confirm-password input:not(:-moz-placeholder) + label {
-    transform: translateY(-50%) translateX(146px);
   }
   body.page-registration .form-group__confirm-password input:focus + label,
   body.page-registration .form-group__confirm-password input:valid + label,
@@ -671,24 +635,15 @@ body.page-registration .underline {
     max-width: 280px;
     font-size: 10px;
   }
-  body.page-registration body.page-registration .form-group input:not(:-moz-placeholder) + label {
-    transform: translateY(-50%) translateX(200px);
-  }
   body.page-registration body.page-registration .form-group input:focus + label,
   body.page-registration body.page-registration .form-group input:valid + label,
   body.page-registration body.page-registration .form-group input:not(:placeholder-shown) + label {
     transform: translateY(-50%) translateX(200px);
   }
-  body.page-registration body.page-registration .form-group input:not(:-moz-placeholder) + label {
-    transform: translateY(-50%) translateX(105px);
-  }
   body.page-registration body.page-registration .form-group input:focus + label,
   body.page-registration body.page-registration .form-group input:valid + label,
   body.page-registration body.page-registration .form-group input:not(:placeholder-shown) + label {
     transform: translateY(-50%) translateX(105px);
-  }
-  body.page-registration body.page-registration .form-group input:not(:-moz-placeholder) + label {
-    transform: translateY(-50%) translateX(90px);
   }
   body.page-registration body.page-registration .form-group input:focus + label,
   body.page-registration body.page-registration .form-group input:valid + label,
@@ -765,6 +720,7 @@ body.page-entrance .form__container-entrance {
 }
 body.page-entrance .form-group {
   position: relative;
+  margin-bottom: 35px;
   font-family: var(--font-secondery);
   font-size: 16px;
   line-height: 18px;
@@ -781,9 +737,6 @@ body.page-entrance .form-group input {
 }
 body.page-entrance .form-group input:focus {
   border-color: #37f737;
-}
-body.page-entrance .form-group input::-moz-placeholder {
-  color: transparent;
 }
 body.page-entrance .form-group input::placeholder {
   color: transparent;
@@ -829,38 +782,23 @@ body.page-entrance .form__checkbox:checked::after {
   height: 16px;
   border: none;
 }
-body.page-entrance .form-group input:not(:-moz-placeholder) + label {
-  transform: translateY(-50%) translateX(347px);
-}
 body.page-entrance .form-group input:focus + label,
 body.page-entrance .form-group input:valid + label,
 body.page-entrance .form-group input:not(:placeholder-shown) + label {
   transform: translateY(-50%) translateX(347px);
-}
-body.page-entrance .form-group__password input:not(:-moz-placeholder) + label {
-  transform: translateY(-58%) translateX(240px);
 }
 body.page-entrance .form-group__password input:focus + label,
 body.page-entrance .form-group__password input:valid + label,
 body.page-entrance .form-group__password input:not(:placeholder-shown) + label {
   transform: translateY(-58%) translateX(240px);
 }
-body.page-entrance .form-group__confirm-password input:not(:-moz-placeholder) + label {
-  transform: translateY(-58%) translateX(225px);
-}
 body.page-entrance .form-group__confirm-password input:focus + label,
 body.page-entrance .form-group__confirm-password input:valid + label,
 body.page-entrance .form-group__confirm-password input:not(:placeholder-shown) + label {
   transform: translateY(-58%) translateX(225px);
 }
-body.page-entrance input:not(:-moz-placeholder) + label + .form__star {
-  opacity: 0;
-}
 body.page-entrance input:focus + label + .form__star,
 body.page-entrance input:not(:placeholder-shown) + label + .form__star {
-  opacity: 0;
-}
-body.page-entrance input:not(:-moz-placeholder) + label + .form__email-login-star {
   opacity: 0;
 }
 body.page-entrance input:focus + label + .form__email-login-star,
@@ -885,8 +823,11 @@ body.page-entrance .form__star .form__password-star {
 }
 body.page-entrance .error-text {
   position: absolute;
-  width: 206px;
-  top: 20px;
+  bottom: -22px;
+  left: 28px;
+  color: #cc4422;
+  font-size: 13.5px;
+  white-space: nowrap;
 }
 body.page-entrance .form__email-login-star {
   position: absolute;
@@ -934,9 +875,7 @@ body.page-entrance .toggle__password-svg {
   fill: #7b7b7b;
 }
 body.page-entrance .form__checkbox {
-  -webkit-appearance: none;
-     -moz-appearance: none;
-          appearance: none;
+  appearance: none;
   width: 20px;
   height: 20px;
   border: 2px solid #7b7b7b;
@@ -1001,16 +940,10 @@ body.page-entrance .account__link-enter {
   body.page-entrance .block-bg__svg {
     fill: #fff;
   }
-  body.page-entrance .form-group input:not(:-moz-placeholder) + label {
-    transform: translateY(-50%) translateX(300px);
-  }
   body.page-entrance .form-group input:focus + label,
   body.page-entrance .form-group input:valid + label,
   body.page-entrance .form-group input:not(:placeholder-shown) + label {
     transform: translateY(-50%) translateX(300px);
-  }
-  body.page-entrance .form-group__password input:not(:-moz-placeholder) + label {
-    transform: translateY(-38%) translateX(196px);
   }
   body.page-entrance .form-group__password input:focus + label,
   body.page-entrance .form-group__password input:valid + label,
@@ -1060,16 +993,10 @@ body.page-entrance .account__link-enter {
   body.page-entrance .form__btn {
     margin-top: 25px;
   }
-  body.page-entrance .form-group input:not(:-moz-placeholder) + label {
-    transform: translateY(-50%) translateX(260px);
-  }
   body.page-entrance .form-group input:focus + label,
   body.page-entrance .form-group input:valid + label,
   body.page-entrance .form-group input:not(:placeholder-shown) + label {
     transform: translateY(-50%) translateX(260px);
-  }
-  body.page-entrance .form-group__password input:not(:-moz-placeholder) + label {
-    transform: translateY(-50%) translateX(160px);
   }
   body.page-entrance .form-group__password input:focus + label,
   body.page-entrance .form-group__password input:valid + label,
@@ -1217,4 +1144,79 @@ body.page-entrance .account__link-enter {
   body.page-entrance .account__link .account__link-enter {
     font-size: 13px;
   }
-}/*# sourceMappingURL=main.css.map */
+}
+
+.profile-container {
+  max-width: 1200px;
+  margin: 40px auto;
+  padding: 0 20px;
+}
+
+.profile-header {
+  background: #0cb660;
+  color: white;
+  padding: 40px 30px;
+  border-radius: 30px 30px 0 0;
+  text-align: center;
+}
+
+.avatar {
+  width: 180px;
+  height: 180px;
+  border-radius: 50%;
+  border: 6px solid white;
+  margin: 0 auto 20px;
+  background: #ddd;
+  background-size: cover;
+  background-position: center;
+}
+
+.section {
+  background: white;
+  border-radius: 30px;
+  padding: 40px;
+  margin-top: 30px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 500;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 14px 20px;
+  border: 1.5px solid #b7b7b7;
+  border-radius: 100px;
+  font-size: 16px;
+}
+
+.btn-save {
+  background: #37f737;
+  color: #1a1a1a;
+  padding: 16px 60px;
+  border: none;
+  border-radius: 100px;
+  font-size: 18px;
+  font-weight: 500;
+  cursor: pointer;
+  margin-top: 20px;
+}
+.btn-save.btn-save:hover {
+  background: #1a1a1a;
+  color: #fff;
+  transition: ease-in 0.2s;
+}
+.btn-save.btn-save:active {
+  background: #1a1a1a;
+  color: #fff;
+  transition: ease-in 0.2s;
+}
+
+/*# sourceMappingURL=main.css.map */

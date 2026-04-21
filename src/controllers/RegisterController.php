@@ -32,8 +32,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $errors['email'] = 'Введите корректный E-mail (например: user@example.com)';
     }
 
-    if (empty($password) || strlen($password) < 8) {
-        $errors['password'] = 'Пароль минимум 8 символов';
+    if (empty($password) || strlen($password) < 6) {
+        $errors['password'] = 'Пароль минимум 6 символов';
     } elseif (!preg_match('/[A-Za-z]/', $password) || !preg_match('/[0-9]/', $password)) {
         $errors['password'] = 'Пароль должен содержать буквы и цифры';
     }

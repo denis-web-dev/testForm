@@ -4,7 +4,12 @@ declare(strict_types=1);
 
 function redirect(string $url): void
 {
-    header("Location: $url");
+    if (headers_sent()) {
+        echo "<script>window.location.href = '$url';</script>";
+        echo "<noscript><meta http-equiv='refresh' content='0;url=$url'></noscript>";
+        exit;
+    }
+    header("Location: $url", true, 302);
     exit;
 }
 

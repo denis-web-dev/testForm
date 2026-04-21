@@ -21,12 +21,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $login     = trim($_POST['login'] ?? '');
     $password  = $_POST['password'] ?? '';
 
-    if (empty($login)) {
-        $errors['login'] = 'Введите email или телефон';
-    }
-    if (empty($password)) {
-        $errors['password'] = 'Введите пароль';
-    }
+    if (empty($login)) $errors['login'] = 'Введите email или телефон';
+    if (empty($password)) $errors['password'] = 'Введите пароль';
 
     if (empty($errors)) {
         $user = $userModel->findByLogin($login);
@@ -36,13 +32,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $_SESSION['user_name'] = $user['name'];
 
             unset($_SESSION['csrf_token']);
-            set_flash('success', 'Вы успешно вошли!');
+            set_flash('success', 'Вы успешно вошли в аккаунт!');
+
             redirect('/profile.php');
+            exit;
         } else {
             $errors['general'] = 'Неверный email/телефон или пароль';
         }
     }
 }
 
-// Передаём ошибки в форму
+// Показ формы при ошибке или GET-запросе
 require_once __DIR__ . '/../../public/login.php';
