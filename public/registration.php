@@ -98,7 +98,7 @@ unset($_SESSION['form_errors'], $_SESSION['form_old']);
 
                     <!-- Поле Пароль -->
                     <div class="form-group form-group__password <?= isset($errors['password']) ? 'has-error' : '' ?>" id="form-group__password">
-                        <input class="form__password" type="password" id="password" name="password" value="<?= old('password', $old['password'] ?? '') ?>" required placeholder="Введите пароль">
+                        <input class="form__password" type="password" id="password" name="password" value="" required placeholder="Введите пароль">
                         <label for="password">Введите пароль</label>
                         <svg class="form__password-star form__star" width="10" height="9" viewBox="0 0 14 13" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path fill-rule="evenodd" clip-rule="evenodd" d="M2.82798 6.5L0 4.95555L2.08438 1.54445L5.91502 4.95555L4.9156 0H9.0844L8.18391 4.95555L11.9156 1.54445L14 4.95555L11.172 6.5L14 8.04445L11.9156 11.4556L8.18391 8.04445L9.0844 13H4.9156L5.91502 8.04445L2.08438 11.4556L0 8.04445L2.82798 6.5Z" fill="#B7B7B7" />
@@ -111,7 +111,7 @@ unset($_SESSION['form_errors'], $_SESSION['form_old']);
 
                     <!-- Поле Повторите пароль -->
                     <div class="form-group form-group__confirm-password <?= isset($errors['confirm-password']) ? 'has-error' : '' ?>" id="form-group__confirm-password">
-                        <input class="form__password" type="password" id="repeatPassword" name="confirm-password" value="<?= old('confirm-password', $old['confirm-password'] ?? '') ?>" required placeholder="Повторите пароль">
+                        <input class="form__password" type="password" id="repeatPassword" name="confirm-password" value="" required placeholder="Повторите пароль">
                         <label for="repeatPassword">Повторите пароль</label>
                         <svg class="form__passwords-star form__star" width="10" height="9" viewBox="0 0 14 13" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path fill-rule="evenodd" clip-rule="evenodd" d="M2.82798 6.5L0 4.95555L2.08438 1.54445L5.91502 4.95555L4.9156 0H9.0844L8.18391 4.95555L11.9156 1.54445L14 4.95555L11.172 6.5L14 8.04445L11.9156 11.4556L8.18391 8.04445L9.0844 13H4.9156L5.91502 8.04445L2.08438 11.4556L0 8.04445L2.82798 6.5Z" fill="#B7B7B7" />
