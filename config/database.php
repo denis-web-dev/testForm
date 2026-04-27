@@ -5,7 +5,7 @@ declare(strict_types=1);
  * Подключение к базе данных (Docker версия)
  */
 
-$host     = getenv('DB_HOST')     ?: 'db';           // важно: 'db' — имя сервиса в docker-compose
+$host     = getenv('DB_HOST')     ?: 'db';
 $dbname   = getenv('DB_DATABASE') ?: 'itfreelance';
 $username = getenv('DB_USERNAME') ?: 'root';
 $password = getenv('DB_PASSWORD') ?: 'root';

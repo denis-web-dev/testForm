@@ -67,18 +67,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     // Регистрация
-    if (empty($errors)) {
-        if ($userModel->register($name, $phone, $email, $password)) {
-            set_flash('success', 'Регистрация прошла успешно!');
-            unset($_SESSION['csrf_token']);
-            redirect('/login.php');
-        } else {
-            $errors['general'] = 'Ошибка при сохранении в базу';
-        }
+   if (empty($errors)) {
+    if ($userModel->register($name, $phone, $email, $password)) {
+        unset($_SESSION['csrf_token']);
+        redirect('/login.php');  // Просто редирект, без сообщения
+    } else {
+        $errors['general'] = 'Ошибка при сохранении в базу';
     }
+}
 
+    if (!empty($errors)) {
+    // Регенерируем токен для следующей попытки
+    $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
     $_SESSION['form_errors'] = $errors;
-    $_SESSION['form_old']    = $_POST;
-
+    $_SESSION['form_old'] = $_POST;
     redirect('/registration.php');
+}
 }

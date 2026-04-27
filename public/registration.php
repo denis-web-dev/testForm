@@ -5,10 +5,15 @@ session_start();
 
 require_once __DIR__ . '/../includes/functions.php';
 
+// ГЕНЕРАЦИЯ CSRF ТОКЕНА (ДОБАВИТЬ ЭТОТ БЛОК)
+if (empty($_SESSION['csrf_token'])) {
+    $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+}
+
 // ====================== ОБРАБОТКА ФОРМЫ ======================
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     require_once __DIR__ . '/../src/controllers/RegisterController.php';
-    exit;                    // ← Очень важно! Чтобы дальше форма не рендерилась
+    exit;
 }
 
 // Восстанавливаем ошибки и старые значения

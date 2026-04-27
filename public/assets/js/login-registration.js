@@ -164,3 +164,20 @@ document.addEventListener('DOMContentLoaded', function () {
 		});
 	});
 });
+
+const textarea = document.getElementById('about');
+const counter = document.getElementById('aboutCounter');
+const MAX = 500;
+
+if (textarea && counter) {
+	textarea.maxLength = MAX;
+
+	const update = () => {
+		const len = textarea.value.length;
+		counter.textContent = len;
+		counter.style.color = len > MAX - 50 ? '#fd4040' : len > MAX - 100 ? '#f37d39' : '#666';
+	};
+
+	textarea.addEventListener('input', update);
+	update();
+}
