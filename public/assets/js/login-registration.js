@@ -127,6 +127,47 @@ document.addEventListener('DOMContentLoaded', () => {
 	}
 });
 
+// Динамическое добавление навыков и инструментов
+document.addEventListener('DOMContentLoaded', () => {
+
+    function addTag(inputId, containerId) {
+        const input = document.getElementById(inputId);
+        const container = document.getElementById(containerId);
+
+        if (!input || !container) return;
+
+        input.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                const value = this.value.trim();
+
+                if (value === '') return;
+
+                // Создаём новый чекбокс
+                const label = document.createElement('label');
+                label.className = 'checkbox-item';
+
+                label.innerHTML = `
+                    <input type="checkbox" name="${inputId}[]" value="${value}" checked />
+                    <span class="checkbox-custom"></span>
+                    <span class="checkbox-label">${value}</span>
+                `;
+
+                container.appendChild(label);
+
+                // Очищаем поле ввода
+                this.value = '';
+            }
+        });
+    }
+
+    // Навыки
+    addTag('skills', 'skills-container');
+
+    // Инструменты
+    addTag('tools', 'tools-container');
+});
+
 document.addEventListener('DOMContentLoaded', function () {
 	const toggleButtons = document.querySelectorAll('.toggle-password');
 

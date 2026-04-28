@@ -144,7 +144,7 @@ body.page-entrance {
   .form__checkbox:checked::after {
     content: "";
     position: absolute;
-    background-image: url(/img/icons/checkBox.svg);
+    background-image: url(/assets/img/icons/checkBox.svg);
     top: 2px;
     left: 0;
     width: 16px;
@@ -152,11 +152,20 @@ body.page-entrance {
     border: none;
   }
 
-  // .form-group input:focus+label,
-  // .form-group input:valid+label,
-  // .form-group input:not(:placeholder-shown)+label {
-  //   transform: translateY(-50%) translateX(347px);
-  // }
+  .form-group label:focus {
+    opacity: 0;
+  }
+
+  .form-group input:focus+label,
+  .form-group input:valid+label,
+  .form-group input:not(:placeholder-shown)+label {
+    transform: translateY(-50%) translateX(347px);
+    opacity: 0;
+  }
+
+  .form-group__password {
+    width: 430px;
+  }
 
   .form-group__password input:focus+label,
   .form-group__password input:valid+label,
@@ -202,8 +211,8 @@ body.page-entrance {
 
   .error-text {
     position: absolute;
-    bottom: -22px;
-    left: 28px;
+    top: 15px;
+    right: 28px;
     color: #cc4422;
     font-size: 13.5px;
     white-space: nowrap;

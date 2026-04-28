@@ -239,7 +239,7 @@ $success = $success ?? '';
 
 						<!-- Навыки -->
 						<div class="profile-section--skills">
-							<div class="checkbox-grid">
+							<div class="checkbox-grid" id="skills-container">
 								<div class="form-group form-group--skills">
 									<label class="form-label" for="skills"><span class="required"></span></label>
 									<input
@@ -307,7 +307,7 @@ $success = $success ?? '';
 
 						<!-- Инструменты -->
 						<div class="profile-section--tools">
-							<div class="checkbox-grid">
+							<div class="checkbox-grid" id="tools-container">
 								<div class="form-group form-group--full">
 									<label class="form-label" for="sphere"><span class="required"></span></label>
 									<input

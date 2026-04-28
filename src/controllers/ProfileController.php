@@ -3,14 +3,13 @@ declare(strict_types=1);
 
 session_start();
 
-require_once __DIR__ . '/../../config/database.php';
 require_once __DIR__ . '/../../includes/functions.php';
+$pdo = require __DIR__ . '/../../config/database.php';
 require_once __DIR__ . '/../models/User.php';
 
-$pdo = require __DIR__ . '/../../config/database.php';
 $userModel = new User($pdo);
 
-requireAuth(); // Защита страницы
+requireAuth();
 
 $errors = [];
 $success = '';
@@ -38,7 +37,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $errors['email'] = 'Введите корректный email';
     }
 
-    // Проверка уникальности телефона и email (если изменились)
+    // Проверка уникальности
     if (empty($errors['phone']) && $phone !== ($user['phone'] ?? '')) {
         if ($userModel->phoneExists($phone)) {
             $errors['phone'] = 'Этот телефон уже используется';
@@ -80,5 +79,4 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 
-// Если ошибки или GET-запрос — показываем форму
 require_once __DIR__ . '/../../public/profile.php';
