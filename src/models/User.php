@@ -15,14 +15,14 @@ class User
     {
         $stmt = $this->pdo->prepare("SELECT id FROM users WHERE email = ?");
         $stmt->execute([$email]);
-        return $stmt->rowCount() > 0;
+        return $stmt->fetch() !== false;
     }
 
     public function phoneExists(string $phone): bool
     {
         $stmt = $this->pdo->prepare("SELECT id FROM users WHERE phone = ?");
         $stmt->execute([$phone]);
-        return $stmt->rowCount() > 0;
+        return $stmt->fetch() !== false;
     }
 
     public function register(string $name, string $phone, string $email, string $password): bool
@@ -37,7 +37,6 @@ class User
         return $stmt->execute([$name, $phone, $email, $hashedPassword]);
     }
 
-
     public function findByLogin(string $login): ?array
     {
         $stmt = $this->pdo->prepare("
@@ -50,4 +49,13 @@ class User
 
         return $user ?: null;
     }
+
+    public function findById(int $id): ?array
+{
+    $stmt = $this->pdo->prepare("SELECT * FROM users WHERE id = ? LIMIT 1");
+    $stmt->execute([$id]);
+    $user = $stmt->fetch();
+
+    return $user ?: null;
+}
 }

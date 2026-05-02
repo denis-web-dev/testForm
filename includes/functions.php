@@ -20,9 +20,9 @@ function e(string $value): string
 }
 
 
-function old(string $key, $default = ''): string
+function old(string $key, string $default = ''): string
 {
-    return isset($_POST[$key]) ? e($_POST[$key]) : $default;
+    return htmlspecialchars($_SESSION['old'][$key] ?? $default);
 }
 
 

@@ -4,18 +4,19 @@ session_start();
 
 require_once __DIR__ . '/../includes/functions.php';
 require_once __DIR__ . '/../includes/auth.php';
-require_once __DIR__ . '/../config/database.php';
+require_once __DIR__ . '/../src/controllers/ProfileController.php';
 
 $pdo = require __DIR__ . '/../config/database.php';
+
 requireAuth();
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    require_once __DIR__ . '/../src/controllers/ProfileController.php';
-    exit;
-}
+
 $user = getCurrentUser($pdo);
 
+$selectedSkills = isset($user['skills']) && $user['skills'] ? json_decode($user['skills'], true) : [];
+$selectedTools = isset($user['tools']) && $user['tools'] ? json_decode($user['tools'], true) : [];
+
 $errors = $errors ?? [];
-$success = $success ?? '';
+
 ?>
 
 <!DOCTYPE html>
@@ -94,7 +95,7 @@ $success = $success ?? '';
 				<!-- <div class="flash-message success">Профиль успешно сохранён!</div> -->
 
 				<form method="POST" action="/profile.php" enctype="multipart/form-data" class="profile-form" id="profileForm">
-					<input type="hidden" name="csrf_token" value="test_token_123" />
+					<input type="hidden" name="csrf_token" value="<?= htmlspecialchars($_SESSION['csrf_token'] ?? '') ?>" />
 
 					<div class="form-user">
 						<!-- Основная информация -->
@@ -118,22 +119,21 @@ $success = $success ?? '';
 						<section class="profile-section--main">
 							<!-- Имя Фамилия -->
 							<div class="form-group">
-								<label class="form-label" for="full_name"></label>
+								<label class="form-label" for="name"></label>
 								<input
 									type="text"
-									id="full_name"
-									name="full_name"
-									value=""
-									class="form-input"
+									id="name"
+									name="name"
+									value="<?= e($user['name'] ?? '') ?>"
+									   class="form-input"
 									placeholder="Иван Иванов"
-									required
 								/>
 							</div>
 
 							<!-- Регион -->
 							<div class="form-group form-group__region">
 								<label class="form-label" for="region"></label>
-								<select id="region" name="region" class="form-select" required>
+								<!-- <select id="region" name="region" class="form-select">
 									<option value="" selected>Регион</option>
 									<option value="moscow">Москва</option>
 									<option value="spb">Санкт-Петербург</option>
@@ -141,19 +141,36 @@ $success = $success ?? '';
 									<option value="novosibirsk">Пермь</option>
 									<option value="ekaterinburg">Екатеринбург</option>
 									<option value="other">Другой</option>
-								</select>
+								</select> -->
+								<select id="region" name="region" class="form-select">
+    <option value="" <?= empty($user['region']) ? 'selected' : '' ?>>Регион</option>
+    <option value="moscow" <?= ($user['region'] ?? '') === 'moscow' ? 'selected' : '' ?>>Москва</option>
+    <option value="spb" <?= ($user['region'] ?? '') === 'spb' ? 'selected' : '' ?>>Санкт-Петербург</option>
+    <option value="kazan" <?= ($user['region'] ?? '') === 'kazan' ? 'selected' : '' ?>>Казань</option>
+    <option value="novosibirsk" <?= ($user['region'] ?? '') === 'novosibirsk' ? 'selected' : '' ?>>Пермь</option>
+    <option value="ekaterinburg" <?= ($user['region'] ?? '') === 'ekaterinburg' ? 'selected' : '' ?>>Екатеринбург</option>
+    <option value="other" <?= ($user['region'] ?? '') === 'other' ? 'selected' : '' ?>>Другой</option>
+</select>
 							</div>
 							<!-- Опыт работы -->
 							<div class="form-group">
 								<label class="form-label" for="experience"></label>
-								<select id="experience" name="experience" class="form-select" required>
+								<!-- <select id="experience" name="experience" class="form-select">
 									<option value="" selected>Опыт работы</option>
 									<option value="0-1">Менее 1 года</option>
 									<option value="1-3">1–3 года</option>
 									<option value="3-5">3–5 лет</option>
 									<option value="5-10">5–10 лет</option>
 									<option value="10+">Более 10 лет</option>
-								</select>
+								</select> -->
+								<select id="experience" name="experience" class="form-select">
+    <option value="" <?= empty($user['experience']) ? 'selected' : '' ?>>Опыт работы</option>
+    <option value="0-1" <?= ($user['experience'] ?? '') === '0-1' ? 'selected' : '' ?>>Менее 1 года</option>
+    <option value="1-3" <?= ($user['experience'] ?? '') === '1-3' ? 'selected' : '' ?>>1–3 года</option>
+    <option value="3-5" <?= ($user['experience'] ?? '') === '3-5' ? 'selected' : '' ?>>3–5 лет</option>
+    <option value="5-10" <?= ($user['experience'] ?? '') === '5-10' ? 'selected' : '' ?>>5–10 лет</option>
+    <option value="10+" <?= ($user['experience'] ?? '') === '10+' ? 'selected' : '' ?>>Более 10 лет</option>
+</select>
 							</div>
 
 							<!-- Ставка -->
@@ -163,7 +180,7 @@ $success = $success ?? '';
 									type="number"
 									id="rate"
 									name="rate"
-									value=""
+									value="<?= e($user['rate'] ?? '') ?>"
 									class="form-input"
 									placeholder="Ставка, ₽/час"
 									min="0"
@@ -178,10 +195,9 @@ $success = $success ?? '';
 									type="text"
 									id="sphere"
 									name="sphere"
-									value=""
+									value="<?= e($user['sphere'] ?? '') ?>"
 									class="form-input"
 									placeholder="Сфера деятельности"
-									required
 								/>
 							</div>
 						</section>
@@ -192,19 +208,20 @@ $success = $success ?? '';
 								<!-- Телефон -->
 								<div class="form-group form-group--readonly">
 									<label class="form-label" for="phone"></label>
-									<input type="tel" id="phone" value="" class="form-input" placeholder="+7 (951) 955 59 99" readonly />
+									<input type="tel" id="phone" name="phone" value="<?= e($user['phone'] ?? '') ?>"
+										   class="form-input" class="form-input" placeholder="+7 (951) 955 59 99" />
 								</div>
 
 								<!-- Email -->
 								<div class="form-group form-group__email--readonly">
 									<label class="form-label" for="email"></label>
-									<input type="email" id="email" value="" class="form-input" placeholder="E-mail" readonly />
+									<input type="email" id="email" name="email" value="<?= e($user['email'] ?? '') ?>" class="form-input" placeholder="E-mail" />
 								</div>
 
 								<!-- Сайт -->
 								<div class="form-group">
 									<label class="form-label" for="website"></label>
-									<input type="url" id="website" name="website" value="" class="form-input" placeholder="Сайт" />
+									<input type="url" id="website" name="website" value="<?= e($user['website'] ?? '') ?>" class="form-input" placeholder="Сайт" />
 								</div>
 
 								<!-- Телеграм -->
@@ -214,7 +231,7 @@ $success = $success ?? '';
 										type="text"
 										id="telegram"
 										name="telegram"
-										value=""
+										value="<?= e($user['telegram'] ?? '') ?>"
 										class="form-input"
 										placeholder="Телеграм"
 									/>
@@ -223,7 +240,7 @@ $success = $success ?? '';
 								<!-- Вконтакте -->
 								<div class="form-group">
 									<label class="form-label" for="vk"></label>
-									<input type="text" id="vk" name="vk" value="" class="form-input" placeholder="Вконтакте" />
+									<input type="text" id="vk" name="vk" value="<?= e($user['vk'] ?? '') ?>" class="form-input" placeholder="Вконтакте" />
 								</div>
 							</div>
 						</div>
@@ -233,7 +250,7 @@ $success = $success ?? '';
 					<section class="profile-section profile-section--about">
 						<h2 class="profile-section__title">Обо мне</h2>
 						<div class="form-group form-group__about">
-							<textarea id="about" name="about" class="form-textarea" placeholder="О себе" rows="6"></textarea>
+							<textarea id="about" name="about" class="form-textarea" placeholder="О себе" rows="6"><?= e($user['about'] ?? '') ?></textarea>
 							<div class="form-textarea__counter"><span id="aboutCounter">0</span> / 500</div>
 						</div>
 
@@ -249,56 +266,55 @@ $success = $success ?? '';
 										value=""
 										class="form-input"
 										placeholder="Навыки"
-										required
 									/>
 								</div>
 								<label class="checkbox-item">
-									<input type="checkbox" name="skills[]" value="verstka" class="checkbox-input" checked />
+									<input type="checkbox" name="skills[]" value="verstka" <?= in_array('Верстка', $selectedSkills) ? 'checked' : '' ?> class="checkbox-input" />
 									<span class="checkbox-custom"></span>
 									<span class="checkbox-label">Верстка</span>
 								</label>
 								<label class="checkbox-item">
-									<input type="checkbox" name="skills[]" value="adaptive" class="checkbox-input" checked />
+									<input type="checkbox" name="skills[]" value="adaptive" <?= in_array('adaptive', $selectedSkills) ? 'checked' : '' ?> class="checkbox-input" />
 									<span class="checkbox-custom"></span>
 									<span class="checkbox-label">Адаптив</span>
 								</label>
 								<label class="checkbox-item">
-									<input type="checkbox" name="skills[]" value="animation" class="checkbox-input" />
+									<input type="checkbox" name="skills[]" value="animation" <?= in_array('animation', $selectedSkills) ? 'checked' : '' ?> class="checkbox-input" />
 									<span class="checkbox-custom"></span>
 									<span class="checkbox-label">Анимация</span>
 								</label>
 								<label class="checkbox-item">
-									<input type="checkbox" name="skills[]" value="mobile" class="checkbox-input" />
+									<input type="checkbox" name="skills[]" value="mobile" <?= in_array('mobile', $selectedSkills) ? 'checked' : '' ?> class="checkbox-input" />
 									<span class="checkbox-custom"></span>
 									<span class="checkbox-label">Мобильная разработка</span>
 								</label>
 								<label class="checkbox-item">
-									<input type="checkbox" name="skills[]" value="uxui" class="checkbox-input" checked />
+									<input type="checkbox" name="skills[]" value="uxui" <?= in_array('uxui', $selectedSkills) ? 'checked' : '' ?> class="checkbox-input" />
 									<span class="checkbox-custom"></span>
 									<span class="checkbox-label">UX/UI</span>
 								</label>
 								<label class="checkbox-item">
-									<input type="checkbox" name="skills[]" value="webapps" class="checkbox-input" />
+									<input type="checkbox" name="skills[]" value="webapps" <?= in_array('webapps', $selectedSkills) ? 'checked' : '' ?> class="checkbox-input" />
 									<span class="checkbox-custom"></span>
 									<span class="checkbox-label">Web-приложения</span>
 								</label>
 								<label class="checkbox-item">
-									<input type="checkbox" name="skills[]" value="landing" class="checkbox-input" checked />
+									<input type="checkbox" name="skills[]" value="landing" <?= in_array('landing', $selectedSkills) ? 'checked' : '' ?> class="checkbox-input" />
 									<span class="checkbox-custom"></span>
 									<span class="checkbox-label">Лендинги</span>
 								</label>
 								<label class="checkbox-item">
-									<input type="checkbox" name="skills[]" value="multipage" class="checkbox-input" />
+									<input type="checkbox" name="skills[]" value="multipage" <?= in_array('multipage', $selectedSkills) ? 'checked' : '' ?> class="checkbox-input" />
 									<span class="checkbox-custom"></span>
 									<span class="checkbox-label">Многостраничные сайты</span>
 								</label>
 								<label class="checkbox-item">
-									<input type="checkbox" name="skills[]" value="branding" class="checkbox-input" />
+									<input type="checkbox" name="skills[]" value="branding" <?= in_array('branding', $selectedSkills) ? 'checked' : '' ?> class="checkbox-input" />
 									<span class="checkbox-custom"></span>
 									<span class="checkbox-label">Брендинг</span>
 								</label>
 								<label class="checkbox-item">
-									<input type="checkbox" name="skills[]" value="logos" class="checkbox-input" />
+									<input type="checkbox" name="skills[]" value="logos" <?= in_array('logos', $selectedSkills) ? 'checked' : '' ?> class="checkbox-input" />
 									<span class="checkbox-custom"></span>
 									<span class="checkbox-label">Логотипы</span>
 								</label>
@@ -313,80 +329,79 @@ $success = $success ?? '';
 									<input
 										type="text"
 										id="sphere"
-										name="sphere"
+										name="tools_input"
 										value=""
 										class="form-input"
 										placeholder="Инструменты"
-										required
 									/>
 								</div>
 								<label class="checkbox-item">
-									<input type="checkbox" name="tools[]" value="figma" class="checkbox-input" checked />
+									<input type="checkbox" name="tools[]" value="figma" <?= in_array('figma', $selectedTools) ? 'checked' : '' ?> class="checkbox-input" />
 									<span class="checkbox-custom"></span>
 									<span class="checkbox-label">Figma</span>
 								</label>
 								<label class="checkbox-item">
-									<input type="checkbox" name="tools[]" value="illustrator" class="checkbox-input" />
+									<input type="checkbox" name="tools[]" value="illustrator" <?= in_array('illustrator', $selectedTools) ? 'checked' : '' ?> class="checkbox-input" />
 									<span class="checkbox-custom"></span>
 									<span class="checkbox-label">Adobe Illustrator</span>
 								</label>
 								<label class="checkbox-item">
-									<input type="checkbox" name="tools[]" value="photoshop" class="checkbox-input" checked />
+									<input type="checkbox" name="tools[]" value="photoshop" <?= in_array('photoshop', $selectedTools) ? 'checked' : '' ?> class="checkbox-input" />
 									<span class="checkbox-custom"></span>
 									<span class="checkbox-label">Adobe Photoshop</span>
 								</label>
 								<label class="checkbox-item">
-									<input type="checkbox" name="tools[]" value="html" class="checkbox-input" checked />
+									<input type="checkbox" name="tools[]" value="html" <?= in_array('html', $selectedTools) ? 'checked' : '' ?> class="checkbox-input" />
 									<span class="checkbox-custom"></span>
 									<span class="checkbox-label">HTML</span>
 								</label>
 								<label class="checkbox-item">
-									<input type="checkbox" name="tools[]" value="css" class="checkbox-input" checked />
+									<input type="checkbox" name="tools[]" value="css" <?= in_array('css', $selectedTools) ? 'checked' : '' ?> class="checkbox-input" />
 									<span class="checkbox-custom"></span>
 									<span class="checkbox-label">CSS</span>
 								</label>
 								<label class="checkbox-item">
-									<input type="checkbox" name="tools[]" value="js" class="checkbox-input" checked />
+									<input type="checkbox" name="tools[]" value="js" <?= in_array('js', $selectedTools) ? 'checked' : '' ?> class="checkbox-input" />
 									<span class="checkbox-custom"></span>
 									<span class="checkbox-label">JS</span>
 								</label>
 								<label class="checkbox-item">
-									<input type="checkbox" name="tools[]" value="react" class="checkbox-input" />
+									<input type="checkbox" name="tools[]" value="react" <?= in_array('react', $selectedTools) ? 'checked' : '' ?> class="checkbox-input" />
 									<span class="checkbox-custom"></span>
 									<span class="checkbox-label">React</span>
 								</label>
 								<label class="checkbox-item">
-									<input type="checkbox" name="tools[]" value="vite" class="checkbox-input" />
+									<input type="checkbox" name="tools[]" value="vite" <?= in_array('vite', $selectedTools) ? 'checked' : '' ?> class="checkbox-input" />
 									<span class="checkbox-custom"></span>
 									<span class="checkbox-label">Vite</span>
 								</label>
 								<label class="checkbox-item">
-									<input type="checkbox" name="tools[]" value="postgresql" class="checkbox-input" />
+									<input type="checkbox" name="tools[]" value="postgresql" <?= in_array('postgresql', $selectedTools) ? 'checked' : '' ?> class="checkbox-input"/>
 									<span class="checkbox-custom"></span>
 									<span class="checkbox-label">PostgreSQL</span>
 								</label>
 								<label class="checkbox-item">
-									<input type="checkbox" name="tools[]" value="cms" class="checkbox-input" />
+									<input type="checkbox" name="tools[]" value="cms" <?= in_array('cms', $selectedTools) ? 'checked' : '' ?> class="checkbox-input" />
 									<span class="checkbox-custom"></span>
 									<span class="checkbox-label">CMS</span>
 								</label>
 								<label class="checkbox-item">
-									<input type="checkbox" name="tools[]" value="python" class="checkbox-input" />
+									<input type="checkbox" name="tools[]" value="python" <?= in_array('python', $selectedTools) ? 'checked' : '' ?> class="checkbox-input" />
 									<span class="checkbox-custom"></span>
 									<span class="checkbox-label">Python</span>
 								</label>
 								<label class="checkbox-item">
-									<input type="checkbox" name="tools[]" value="java" class="checkbox-input" />
+									<input type="checkbox" name="tools[]" value="java" <?= in_array('java', $selectedTools) ? 'checked' : '' ?> class="checkbox-input" />
 									<span class="checkbox-custom"></span>
 									<span class="checkbox-label">Java</span>
 								</label>
 								<label class="checkbox-item">
-									<input type="checkbox" name="tools[]" value="cpp" class="checkbox-input" />
+									<input type="checkbox" name="tools[]" value="cpp" <?= in_array('cpp', $selectedTools) ? 'checked' : '' ?> class="checkbox-input" />
 									<span class="checkbox-custom"></span>
 									<span class="checkbox-label">C++</span>
 								</label>
 								<label class="checkbox-item">
-									<input type="checkbox" name="tools[]" value="csharp" class="checkbox-input" />
+									<input type="checkbox" name="tools[]" value="csharp" <?= in_array('csharp', $selectedTools) ? 'checked' : '' ?> class="checkbox-input" />
 									<span class="checkbox-custom"></span>
 									<span class="checkbox-label">C#</span>
 								</label>

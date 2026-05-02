@@ -209,6 +209,7 @@ body.page-registration .form__container {
   z-index: 2;
 }
 body.page-registration .form__container-registration {
+  width: 430px;
   top: 20%;
 }
 body.page-registration .form-group {
@@ -1342,9 +1343,6 @@ body.page-entrance .account__link-enter {
   body.page-entrance .toggle-password {
     top: 15px;
     right: 10px;
-  }
-  body.page-entrance .form__container-registration {
-    top: 20%;
   }
   body.page-entrance .form__btn {
     width: 280px;

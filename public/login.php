@@ -5,6 +5,10 @@ session_start();
 
 require_once __DIR__ . '/../includes/functions.php';
 
+if (empty($_SESSION['csrf_token'])) {
+    $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+}
+
 // Обработка POST-запроса
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     require_once __DIR__ . '/../src/controllers/LoginController.php';
@@ -12,7 +16,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 
 $errors = $errors ?? [];
-$old    = $_POST ?? [];
+
+$old = $_SESSION['old'] ?? [];
+unset($_SESSION['old']);
 ?>
 
 <!DOCTYPE html>
@@ -23,6 +29,7 @@ $old    = $_POST ?? [];
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>ITFREELANCE-Вход</title>
   <link rel="stylesheet" href="/assets/css/main.css">
+<script src="https://www.google.com/recaptcha/api.js?render=6LeW1c4sAAAAAFgtj1i5hAjO2qyouXLJ-PHk5gyH"></script>
 </head>
 
 <body class="page-entrance">
@@ -35,6 +42,11 @@ $old    = $_POST ?? [];
 <?php if (!empty($errors['general'])): ?>
     <div style="color: red; text-align: center; margin: 15px 0; font-weight: bold;">
         <?= e($errors['general']) ?>
+    </div>
+<?php endif; ?>
+<?php if (!empty($errors['captcha'])): ?>
+    <div style="color: red; text-align: center; margin: 15px 0; font-weight: bold;">
+        <?= e($errors['captcha']) ?>
     </div>
 <?php endif; ?>
         <div class="block-bg">
@@ -50,14 +62,14 @@ $old    = $_POST ?? [];
               d="M1338.69 0C1360.04 0 1370.74 25.8136 1355.64 40.9107C1346.28 50.2696 1346.28 65.4433 1355.64 74.8022L1401.21 120.375C1406.84 126.001 1410 133.632 1410 141.588V740C1410 756.569 1396.57 770 1380 770H30C13.4315 770 0 756.569 0 740V30C0 13.4315 13.4315 0 30 0H1338.69Z" />
           </svg>
 
-          <form class="form__container-entrance form__container" method="POST" action="/login.php">
+          <form class="form__container-entrance form__container" method="POST" action="/login.php" id="login-form">
             <input type="hidden" name="csrf_token" value="<?= $_SESSION['csrf_token'] ?? '' ?>">
             <div class="form-group form-group__email <?= isset($errors['login']) ? 'has-error' : '' ?>">
               <input class="form__email"
               type="text"
               id="form_login"
               name="login"
-              value="<?= old('login') ?>"
+              value="<?= e($old['login'] ?? '') ?>"
               required
               placeholder="E-mail или телефон">
               <label for="form_login">E-mail или телефон</label>
@@ -102,6 +114,7 @@ $old    = $_POST ?? [];
               <a class="form__forgot-password" href="forgot-pass.html">Забыли пароль?</a>
             </div>
 
+          <input type="hidden" id="recaptcha-token" name="recaptcha_token" value="">
             <button class="form__btn" type="submit">Войти</button>
           </form>
 
@@ -112,7 +125,25 @@ $old    = $_POST ?? [];
         </div>
     </main>
   </div>
+  <script>
+    document.getElementById('login-form').addEventListener('submit', function(e) {
+      e.preventDefault();
 
+      const submitBtn = document.querySelector('.form__btn');
+      const originalText = submitBtn.textContent;
+
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Проверка...';
+
+      grecaptcha.ready(function() {
+        grecaptcha.execute('6LeW1c4sAAAAAFgtj1i5hAjO2qyouXLJ-PHk5gyH', {action: 'login'})
+          .then(function(token) {
+            document.getElementById('recaptcha-token').value = token;
+            document.getElementById('login-form').submit();
+          });
+      });
+    });
+  </script>
   <script src="/assets/js/login-registration.js"></script>
 </body>
 

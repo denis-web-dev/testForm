@@ -128,44 +128,147 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 // Динамическое добавление навыков и инструментов
-document.addEventListener('DOMContentLoaded', () => {
+// document.addEventListener('DOMContentLoaded', () => {
 
-    function addTag(inputId, containerId) {
-        const input = document.getElementById(inputId);
-        const container = document.getElementById(containerId);
+//     function addTag(inputId, containerId) {
+//         const input = document.getElementById(inputId);
+//         const container = document.getElementById(containerId);
 
-        if (!input || !container) return;
+//         if (!input || !container) return;
 
-        input.addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') {
-                e.preventDefault();
-                const value = this.value.trim();
+//         input.addEventListener('keypress', function(e) {
+//             if (e.key === 'Enter') {
+//                 e.preventDefault();
+//                 const value = this.value.trim();
 
-                if (value === '') return;
+//                 if (value === '') return;
 
-                // Создаём новый чекбокс
-                const label = document.createElement('label');
-                label.className = 'checkbox-item';
+//                 // Создаём новый чекбокс
+//                 const label = document.createElement('label');
+//                 label.className = 'checkbox-item';
 
-                label.innerHTML = `
-                    <input type="checkbox" name="${inputId}[]" value="${value}" checked />
-                    <span class="checkbox-custom"></span>
-                    <span class="checkbox-label">${value}</span>
-                `;
+//                 label.innerHTML = `
+//                     <input type="checkbox" name="${inputId}[]" value="${value}" checked />
+//                     <span class="checkbox-custom"></span>
+//                     <span class="checkbox-label">${value}</span>
+//                 `;
 
-                container.appendChild(label);
+//                 container.appendChild(label);
 
-                // Очищаем поле ввода
-                this.value = '';
-            }
-        });
-    }
+//                 // Очищаем поле ввода
+//                 this.value = '';
+//             }
+//         });
+//     }
 
-    // Навыки
-    addTag('skills', 'skills-container');
+//     // Навыки
+//     addTag('skills', 'skills-container');
 
-    // Инструменты
-    addTag('tools', 'tools-container');
+//     // Инструменты
+//     addTag('tools', 'tools-container');
+// });
+
+// Управление навыками
+const skillsContainer = document.getElementById('skills-container');
+// Ищем поле ввода - у него id="skills"
+const skillsInput = document.getElementById('skills');
+
+// Добавление нового навыка по Enter
+if (skillsInput) {
+	skillsInput.addEventListener('keypress', function (e) {
+		if (e.key === 'Enter') {
+			e.preventDefault();
+			const value = this.value.trim();
+			if (value && !isSkillExists(value)) {
+				addSkill(value);
+			}
+			this.value = '';
+		}
+	});
+}
+
+function isSkillExists(value) {
+	const labels = skillsContainer.querySelectorAll('.checkbox-label');
+	for (let label of labels) {
+		if (label.textContent.toLowerCase() === value.toLowerCase()) return true;
+	}
+	return false;
+}
+
+function addSkill(value) {
+	const newSkill = document.createElement('label');
+	newSkill.className = 'checkbox-item';
+	newSkill.innerHTML = `
+        <input type="checkbox" name="skills[]" value="${value}" class="checkbox-input" checked>
+        <span class="checkbox-custom"></span>
+        <span class="checkbox-label">${value}</span>
+    `;
+	skillsContainer.appendChild(newSkill);
+}
+
+// Удаление навыка при снятии чекбокса
+skillsContainer.addEventListener('change', function (e) {
+	if (e.target.type === 'checkbox' && !e.target.checked) {
+		const parent = e.target.closest('.checkbox-item');
+		if (parent) {
+			parent.remove();
+		}
+	}
+});
+
+// ========== ИНСТРУМЕНТЫ ==========
+const toolsContainer = document.getElementById('tools-container');
+// Ищем поле ввода - у него id="sphere" (или создайте отдельный id)
+const toolsInput = document.getElementById('tools_input');
+
+// Если нет поля с id="tools_input", создадим его
+if (!toolsInput) {
+	// Ищем поле с placeholder "Инструменты"
+	const input = toolsContainer.querySelector('input[placeholder="Инструменты"]');
+	if (input) input.id = 'tools_input';
+}
+
+const toolsInputFixed = document.getElementById('tools_input');
+
+if (toolsInputFixed) {
+	toolsInputFixed.addEventListener('keypress', function (e) {
+		if (e.key === 'Enter') {
+			e.preventDefault();
+			const value = this.value.trim();
+			if (value && !isToolExists(value)) {
+				addTool(value);
+			}
+			this.value = '';
+		}
+	});
+}
+
+function isToolExists(value) {
+	const labels = toolsContainer.querySelectorAll('.checkbox-label');
+	for (let label of labels) {
+		if (label.textContent.toLowerCase() === value.toLowerCase()) return true;
+	}
+	return false;
+}
+
+function addTool(value) {
+	const newTool = document.createElement('label');
+	newTool.className = 'checkbox-item';
+	newTool.innerHTML = `
+        <input type="checkbox" name="tools[]" value="${value}" class="checkbox-input" checked>
+        <span class="checkbox-custom"></span>
+        <span class="checkbox-label">${value}</span>
+    `;
+	toolsContainer.appendChild(newTool);
+}
+
+toolsContainer.addEventListener('change', function (e) {
+	if (e.target.type === 'checkbox' && !e.target.checked) {
+		const parent = e.target.closest('.checkbox-item');
+		if (parent) {
+			parent.remove();
+		}
+	}
 });
 
 document.addEventListener('DOMContentLoaded', function () {
